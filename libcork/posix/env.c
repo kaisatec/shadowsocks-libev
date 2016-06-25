@@ -23,8 +23,9 @@
  *
  * [1] http://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man7/environ.7.html
  */
-#include <crt_externs.h>
-#define environ  (*_NSGetEnviron())
+//#include <crt_externs.h>
+//#define environ  (*_NSGetEnviron())
+#define NO_ENVIRON  1
 
 #else
 /* On all other POSIX platforms, we assume that environ is available in shared
@@ -94,6 +95,9 @@ cork_env_add_internal(struct cork_env *env, const char *name, const char *value)
 struct cork_env *
 cork_env_clone_current(void)
 {
+#ifdef NO_ENVIRON
+    return NULL;
+#else
     char  **curr;
     struct cork_env  *env = cork_env_new();
 
@@ -114,6 +118,7 @@ cork_env_clone_current(void)
     }
 
     return env;
+#endif
 }
 
 
@@ -193,7 +198,9 @@ cork_env_set_vars(void *user_data, struct cork_hash_table_entry *entry)
 static void
 clearenv(void)
 {
+#ifndef NO_ENVIRON
     *environ = NULL;
+#endif
 }
 
 #else

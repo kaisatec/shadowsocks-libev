@@ -207,16 +207,16 @@ cork_u128_ge(cork_u128 a, cork_u128 b)
 /* log10(x) = log2(x) / log2(10) ~= log2(x) / 3.322 */
 #define CORK_U128_DECIMAL_LENGTH  44  /* ~= 128 / 3 + 1 + 1 */
 
-CORK_API const char *
+ const char *
 cork_u128_to_decimal(char *buf, cork_u128 val);
 
 
 #define CORK_U128_HEX_LENGTH  33
 
-CORK_API const char *
+ const char *
 cork_u128_to_hex(char *buf, cork_u128 val);
 
-CORK_API const char *
+ const char *
 cork_u128_to_padded_hex(char *buf, cork_u128 val);
 
 

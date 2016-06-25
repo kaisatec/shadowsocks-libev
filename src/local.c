@@ -1284,7 +1284,7 @@ int main(int argc, char **argv)
 
 #else
 
-int start_ss_local_server(profile_t profile)
+int start_ss_local_server(profile_t profile, shadowsocks_cb cb, void *data)
 {
     srand(time(NULL));
 
@@ -1296,6 +1296,7 @@ int start_ss_local_server(profile_t profile)
     int remote_port   = profile.remote_port;
     int local_port    = profile.local_port;
     int timeout       = profile.timeout;
+    int use_sys_log = profile.use_sys_log;
 
     auth      = profile.auth;
     mode      = profile.mode;
@@ -1308,6 +1309,9 @@ int start_ss_local_server(profile_t profile)
     sprintf(remote_port_str, "%d", remote_port);
 
     USE_LOGFILE(log);
+    if (!logfile && use_sys_log) {
+        logfile = stderr;
+    }
 
     if (profile.acl != NULL) {
         acl = !init_acl(profile.acl, BLACK_LIST);
@@ -1370,6 +1374,8 @@ int start_ss_local_server(profile_t profile)
         return -1;
     }
     setnonblocking(listenfd);
+
+    cb(listenfd, data);
 
     listen_ctx.fd = listenfd;
 
