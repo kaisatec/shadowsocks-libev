@@ -7,7 +7,6 @@ libudns/Makefile
 libcork/Makefile
 libipset/Makefile
 autom4te.cache/
-/config.h
 config.log
 config.status
 libtool
@@ -48,7 +47,7 @@ libsodium/src/libsodium/include/sodium/version.h
 *.ko.cmd
 *.lai
 *.l[oa]
-*.[oa]
+*.[o]
 *.obj
 *.patch
 *.so
